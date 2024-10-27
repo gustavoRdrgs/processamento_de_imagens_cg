@@ -2,10 +2,14 @@ import tkinter as tk
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
+from tkinter import Label, messagebox
+from PIL import Image, ImageTk
+
+label_original = None
+label_filtrada = None
 
 class Filtro:
     @staticmethod
-    # Função que adiciona zeros ao redor da matriz imagem
     def adiciona_zeros(matriz_imagem):
         altura, largura = matriz_imagem.shape
         nova_imagem = np.zeros((altura + 2, largura + 2), dtype=matriz_imagem.dtype)
@@ -34,22 +38,32 @@ class Mediana:
 
         return retorno
 
-def on_aplicar_filtro_mediana():
+def on_aplicar_filtro_mediana(caminho_imagem, janela_filtro):
+    global label_original, label_filtrada
+
     try:
-        imagem = cv2.imread('images/Lenasalp.pgm', cv2.IMREAD_GRAYSCALE)  # Altere o caminho da imagem aqui
+        imagem = cv2.imread(caminho_imagem, cv2.IMREAD_GRAYSCALE)
+        if imagem is None:
+            raise ValueError("Erro ao carregar a imagem.")
+
         mediana = Mediana(imagem)
         imagem_filtrada = mediana.aplica_filtro()
 
-        plt.subplot(1, 2, 1)
-        plt.imshow(imagem, cmap='gray')
-        plt.title('Imagem Original')
-        plt.axis('off')
+        imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem))
+        imagem_filtrada_tk = ImageTk.PhotoImage(Image.fromarray(imagem_filtrada))
 
-        plt.subplot(1, 2, 2)
-        plt.imshow(imagem_filtrada, cmap='gray')
-        plt.title('Filtro de Mediana (3x3)')
-        plt.axis('off')
+        if label_original is not None:
+            label_original.destroy()
+        if label_filtrada is not None:
+            label_filtrada.destroy()
 
-        plt.show()
+        label_original = Label(janela_filtro, image=imagem_original_tk, text="Imagem Original", compound="top")
+        label_original.image = imagem_original_tk
+        label_original.pack(side="left", padx=10)
+
+        label_filtrada = Label(janela_filtro, image=imagem_filtrada_tk, text="Filtro de Mediana (3x3)", compound="top")
+        label_filtrada.image = imagem_filtrada_tk
+        label_filtrada.pack(side="right", padx=10)
+
     except Exception as e:
-        tk.messagebox.showerror("Erro", str(e))
+        messagebox.showerror("Erro", str(e))
