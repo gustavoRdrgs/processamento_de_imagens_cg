@@ -1,6 +1,8 @@
 import tkinter as tk
 from filtros.filtro_media import on_aplicar_filtro_media
 from filtros.filtro_mediana import on_aplicar_filtro_mediana
+from filtros.filtro_passa_alta import on_aplicar_filtro_passa_alta
+from filtros.roberts import on_aplicar_filtro_roberts
 
 def abrir_tela_filtro(filtro_funcao):
     janela_filtro = tk.Toplevel(janela)
@@ -30,6 +32,12 @@ botao_media = tk.Button(janela, text="Filtro de Média", command=lambda: abrir_t
 botao_media.pack(pady=10)
 
 botao_mediana = tk.Button(janela, text="Filtro de Mediana", command=lambda: abrir_tela_filtro(on_aplicar_filtro_mediana))
+botao_mediana.pack(pady=10)
+
+botao_mediana = tk.Button(janela, text="Filtro Passa Alta", command=lambda: abrir_tela_filtro(on_aplicar_filtro_passa_alta))
+botao_mediana.pack(pady=10)
+
+botao_mediana = tk.Button(janela, text="Filtro Roberts", command=lambda: abrir_tela_filtro(on_aplicar_filtro_roberts))
 botao_mediana.pack(pady=10)
 
 janela.mainloop()
