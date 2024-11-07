@@ -20,36 +20,34 @@ def filtro_roberts(imagem, kernel_x, kernel_y):
             gy = imagem[y, x] * kernel_y[0, 0] + imagem[y, x + 1] * kernel_y[0, 1] + \
                  imagem[y + 1, x] * kernel_y[1, 0] + imagem[y + 1, x + 1] * kernel_y[1, 1]
 
-            imagem_filtrada[y, x] = min(max(np.sqrt(gx**2 + gy**2), 0), 255)
+            imagem_filtrada[y, x] = np.sqrt(gx**2 + gy**2)
 
-    return imagem, imagem_filtrada.astype(np.uint8)
+    imagem_filtrada = np.clip(imagem_filtrada, 0, 255).astype(np.uint8)
 
-label_original = None
-label_filtrada = None
+    return imagem, imagem_filtrada
 
-def on_aplicar_filtro_roberts(caminho_imagem, janela_filtro):
-    global label_original, label_filtrada
-
+def on_aplicar_filtro_roberts(caminho_imagem, frame_imagens):
     try:
         imagem = cv2.imread(caminho_imagem, cv2.IMREAD_GRAYSCALE)
         if imagem is None:
             raise ValueError("Erro ao carregar a imagem.")
-
+        
         imagem_original, imagem_filtrada = filtro_roberts(imagem, kernel_roberts_x, kernel_roberts_y)
 
-        imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem_original))
-        imagem_filtrada_tk = ImageTk.PhotoImage(Image.fromarray(imagem_filtrada))
+        imagem_original_resized = cv2.resize(imagem_original, (400, 400))
+        imagem_filtrada_resized = cv2.resize(imagem_filtrada, (400, 400))
 
-        if label_original is not None:
-            label_original.destroy()
-        if label_filtrada is not None:
-            label_filtrada.destroy()
+        imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem_original_resized))
+        imagem_filtrada_tk = ImageTk.PhotoImage(Image.fromarray(imagem_filtrada_resized))
 
-        label_original = Label(janela_filtro, image=imagem_original_tk, text="Imagem Original", compound="top")
+        for widget in frame_imagens.winfo_children():
+            widget.destroy()
+
+        label_original = Label(frame_imagens, image=imagem_original_tk, text="Imagem Original", compound="top")
         label_original.image = imagem_original_tk
         label_original.pack(side="left", padx=10)
 
-        label_filtrada = Label(janela_filtro, image=imagem_filtrada_tk, text="Imagem Filtrada", compound="top")
+        label_filtrada = Label(frame_imagens, image=imagem_filtrada_tk, text="Filtro Roberts", compound="top")
         label_filtrada.image = imagem_filtrada_tk
         label_filtrada.pack(side="right", padx=10)
 
