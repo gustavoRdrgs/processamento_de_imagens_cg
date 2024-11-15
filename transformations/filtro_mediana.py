@@ -42,11 +42,8 @@ def on_aplicar_filtro_mediana(caminho_imagem, frame_imagens):
         mediana = Mediana(imagem)
         imagem_filtrada = mediana.aplica_filtro()
 
-        imagem_original_resized = cv2.resize(imagem, (400, 400))
-        imagem_filtrada_resized = cv2.resize(imagem_filtrada, (400, 400))
-
-        imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem_original_resized))
-        imagem_filtrada_tk = ImageTk.PhotoImage(Image.fromarray(imagem_filtrada_resized))
+        imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem))
+        imagem_filtrada_tk = ImageTk.PhotoImage(Image.fromarray(imagem_filtrada))
 
         for widget in frame_imagens.winfo_children():
             widget.destroy()

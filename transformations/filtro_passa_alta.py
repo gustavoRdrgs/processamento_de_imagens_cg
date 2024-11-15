@@ -3,11 +3,10 @@ import numpy as np
 from tkinter import Label, messagebox
 from PIL import Image, ImageTk
 
-kernel_passa_alta = np.array([[-1, -1, -1],
-                              [-1,  8, -1],
-                              [-1, -1, -1]], dtype=np.float32)
-
-def filtro_passa_alta(imagem, kernel):
+def filtro_passa_alta(imagem):
+    kernel = np.array([[-1, -1, -1],
+                       [-1,  8, -1],
+                       [-1, -1, -1]], dtype=np.float32)
     altura, largura = imagem.shape
     kaltura, klargura = kernel.shape
 
@@ -33,13 +32,10 @@ def on_aplicar_filtro_passa_alta(caminho_imagem, frame_imagens):
         if imagem is None:
             raise ValueError("Erro ao carregar a imagem.")
         
-        imagem_original, imagem_filtrada = filtro_passa_alta(imagem, kernel_passa_alta)
+        imagem_original, imagem_filtrada = filtro_passa_alta(imagem)
 
-        imagem_original_resized = cv2.resize(imagem_original, (400, 400))
-        imagem_filtrada_resized = cv2.resize(imagem_filtrada, (400, 400))
-
-        imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem_original_resized))
-        imagem_filtrada_tk = ImageTk.PhotoImage(Image.fromarray(imagem_filtrada_resized))
+        imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem_original))
+        imagem_filtrada_tk = ImageTk.PhotoImage(Image.fromarray(imagem_filtrada))
 
         for widget in frame_imagens.winfo_children():
             widget.destroy()

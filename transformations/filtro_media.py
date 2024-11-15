@@ -3,11 +3,11 @@ import numpy as np
 from tkinter import Label, messagebox
 from PIL import Image, ImageTk
 
-mascara = np.ones((3, 3), dtype=np.float32) / 9
 
-def filtro_media(imagem, mascara):
+def filtro_media(imagem):
+    kernel = np.ones((3, 3), dtype=np.float32) / 9
     altura, largura = imagem.shape
-    kaltura, klargura = mascara.shape
+    kaltura, klargura = kernel.shape
 
     imagem_filtrada = np.zeros_like(imagem)
     offset_y = kaltura // 2
@@ -21,10 +21,10 @@ def filtro_media(imagem, mascara):
                     ny = y + ky - offset_y
                     nx = x + kx - offset_x
                     if 0 <= ny < altura and 0 <= nx < largura:
-                        soma += imagem[ny, nx] * mascara[ky, kx]
+                        soma += imagem[ny, nx] * kernel[ky, kx]
             imagem_filtrada[y, x] = soma
 
-    return imagem, imagem_filtrada
+    return imagem, imagem_filtrada, kernel
 
 def on_aplicar_filtro_media(caminho_imagem, frame_imagens):
     try:
@@ -32,13 +32,10 @@ def on_aplicar_filtro_media(caminho_imagem, frame_imagens):
         if imagem is None:
             raise ValueError("Erro ao carregar a imagem.")
         
-        imagem_original, imagem_filtrada = filtro_media(imagem, mascara)
+        imagem_original, imagem_filtrada, kernel = filtro_media(imagem)
 
-        imagem_original_resized = cv2.resize(imagem_original, (400, 400))
-        imagem_filtrada_resized = cv2.resize(imagem_filtrada, (400, 400))
-
-        imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem_original_resized))
-        imagem_filtrada_tk = ImageTk.PhotoImage(Image.fromarray(imagem_filtrada_resized))
+        imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem_original))
+        imagem_filtrada_tk = ImageTk.PhotoImage(Image.fromarray(imagem_filtrada))
 
         for widget in frame_imagens.winfo_children():
             widget.destroy()
@@ -50,6 +47,8 @@ def on_aplicar_filtro_media(caminho_imagem, frame_imagens):
         label_filtrada = Label(frame_imagens, image=imagem_filtrada_tk, text="Filtro de Média (3x3)", compound="top")
         label_filtrada.image = imagem_filtrada_tk
         label_filtrada.pack(side="right", padx=10)
+
+        return kernel
 
     except Exception as e:
         messagebox.showerror("Erro", str(e))

@@ -3,12 +3,9 @@ import numpy as np
 from tkinter import Label, messagebox
 from PIL import Image, ImageTk
 
-kernel_roberts_x = np.array([[1, 0],
-                             [0, -1]], dtype=np.float32)
-kernel_roberts_y = np.array([[0, 1],
-                             [-1, 0]], dtype=np.float32)
-
-def filtro_roberts(imagem, kernel_x, kernel_y):
+def filtro_roberts(imagem):
+    kernel_x = np.array([[1, 0],[-1, 0]], dtype=np.float32)
+    kernel_y = np.array([[1, -1],[0, 0]], dtype=np.float32)
     altura, largura = imagem.shape
 
     imagem_filtrada = np.zeros_like(imagem, dtype=np.float32)
@@ -32,13 +29,10 @@ def on_aplicar_filtro_roberts(caminho_imagem, frame_imagens):
         if imagem is None:
             raise ValueError("Erro ao carregar a imagem.")
         
-        imagem_original, imagem_filtrada = filtro_roberts(imagem, kernel_roberts_x, kernel_roberts_y)
+        imagem_original, imagem_filtrada = filtro_roberts(imagem)
 
-        imagem_original_resized = cv2.resize(imagem_original, (400, 400))
-        imagem_filtrada_resized = cv2.resize(imagem_filtrada, (400, 400))
-
-        imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem_original_resized))
-        imagem_filtrada_tk = ImageTk.PhotoImage(Image.fromarray(imagem_filtrada_resized))
+        imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem_original))
+        imagem_filtrada_tk = ImageTk.PhotoImage(Image.fromarray(imagem_filtrada))
 
         for widget in frame_imagens.winfo_children():
             widget.destroy()
