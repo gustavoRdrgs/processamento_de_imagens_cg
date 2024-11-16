@@ -59,7 +59,6 @@ def abrir_tela_operacoes_imagem(janela):
             exibir_resultado(resultado)
 
     def exibir_resultado(imagem_resultado):
-        print("imagem resultado:"+ imagem_resultado)
         nonlocal resultado_imagem_label
         nonlocal resultado_label
 
@@ -72,8 +71,6 @@ def abrir_tela_operacoes_imagem(janela):
         resultado_label.pack(pady=5)
 
         imagem = cv2.imread(imagem_resultado, cv2.IMREAD_GRAYSCALE)
-        #imagem_corrigida = 255 - imagem
-        #print(imagem_corrigida)
         resultado_imagem = ImageTk.PhotoImage(Image.fromarray(imagem))
         
         resultado_imagem_label = tk.Label(janela_operacoes, image=resultado_imagem)
