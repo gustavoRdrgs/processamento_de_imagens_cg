@@ -8,7 +8,7 @@ from transformations.filtro_roberts_cruzado import on_aplicar_filtro_roberts_cru
 from transformations.filtro_prewitt import on_aplicar_filtro_prewitt
 from transformations.filtro_alto_reforco import on_aplicar_alto_reforco
 from transformations.filtro_sobel import on_aplicar_filtro_sobel
-from transformations.morfologia import on_aplicar_morfologia
+from transformations.operacoes_morfologicas import on_aplicar_morfologia
 from utils.formatar_matriz import formatar_matriz
 
 def abrir_tela_filtro(janela, is_morfologico=False):
@@ -21,7 +21,7 @@ def abrir_tela_filtro(janela, is_morfologico=False):
 
     if is_morfologico:
         imagem_selecionada.set("fingerprint.pbm")
-        opcoes_imagens = ["fingerprint.pbm", "map.pbm", "holes.pbm"]
+        opcoes_imagens = ["fingerprint.pbm", "map.pbm", "holes.pbm", "Lenag.pgm", "Airplane.pgm", "Lenasalp.pgm", "Lena.pgm"]
     else:
         imagem_selecionada.set("Lena.pgm")
         opcoes_imagens = ["Lenag.pgm", "Airplane.pgm", "Lenasalp.pgm", "Lena.pgm"]
