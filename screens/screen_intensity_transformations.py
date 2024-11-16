@@ -1,6 +1,6 @@
 import tkinter as tk
 import cv2
-from transformations.transformations import aplicar_transformacao
+from transformations.operacoes_grayscale import aplicar_transformacao
 from PIL import Image, ImageTk
 
 def abrir_tela_transformacoes_intensidade(janela, is_morfologico=False):

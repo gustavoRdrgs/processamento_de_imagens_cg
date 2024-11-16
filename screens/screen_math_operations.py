@@ -1,5 +1,4 @@
 import tkinter as tk
-from tkinter import filedialog
 from transformations.operacoes_matematicas import (
     soma_imagens, subtracao_imagens, multiplicacao_imagens, 
     divisao_imagens, or_imagens, and_imagens, xor_imagens
