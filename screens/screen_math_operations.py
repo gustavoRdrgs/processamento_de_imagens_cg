@@ -1,5 +1,6 @@
+import cv2
 import tkinter as tk
-from tkinter import filedialog
+from PIL import Image, ImageTk
 from transformations.operacoes_matematicas import (
     soma_imagens, subtracao_imagens, multiplicacao_imagens, 
     divisao_imagens, or_imagens, and_imagens, xor_imagens
@@ -65,11 +66,12 @@ def abrir_tela_operacoes_imagem(janela):
             resultado_imagem_label.destroy()
         if resultado_label is not None:
             resultado_label.destroy()
-
+        
         resultado_label = tk.Label(janela_operacoes, text="Resultado da Operação:")
         resultado_label.pack(pady=5)
 
-        resultado_imagem = tk.PhotoImage(file=imagem_resultado)
+        imagem = cv2.imread(imagem_resultado, cv2.IMREAD_GRAYSCALE)
+        resultado_imagem = ImageTk.PhotoImage(Image.fromarray(imagem))
         
         resultado_imagem_label = tk.Label(janela_operacoes, image=resultado_imagem)
         resultado_imagem_label.image = resultado_imagem

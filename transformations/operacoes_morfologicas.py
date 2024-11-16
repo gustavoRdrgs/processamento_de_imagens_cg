@@ -74,7 +74,6 @@ def on_aplicar_morfologia(caminho_imagem, janela_filtro, operacao):
         imagem = cv2.imread(caminho_imagem, cv2.IMREAD_GRAYSCALE)
         binario = caminho_imagem.endswith('.pbm')
 
-        # Aplicar a operação morfológica escolhida
         if operacao == "Erosão":
             imagem_resultado = aplicar_erosao(imagem, mascara, binario=binario)
             texto = "Imagem Erodida"
@@ -108,13 +107,11 @@ def on_aplicar_morfologia(caminho_imagem, janela_filtro, operacao):
         imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem))
         imagem_resultado_tk = ImageTk.PhotoImage(Image.fromarray(imagem_resultado))
 
-        # Remover os labels anteriores, se existirem
         if label_original is not None:
             label_original.destroy()
         if label_resultado is not None:
             label_resultado.destroy()
 
-        # Atualizar labels com as novas imagens
         label_original = Label(janela_filtro, image=imagem_original_tk, text="Imagem Original", compound="top")
         label_original.image = imagem_original_tk
         label_original.pack(side="left", padx=10)

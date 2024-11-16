@@ -8,7 +8,7 @@ def soma_imagens(imagem1, imagem2):
     img1 = carregar_imagem(imagem1)
     img2 = carregar_imagem(imagem2)
     
-    resultado = np.zeros_like(img1)
+    resultado = np.zeros_like(img1, dtype=np.int32)
 
     for i in range(img1.shape[0]):
         for j in range(img1.shape[1]):
@@ -17,11 +17,12 @@ def soma_imagens(imagem1, imagem2):
     pathing_image = salvar_imagem_pgm(resultado, 'resultado_soma.pgm')
     return pathing_image
 
+
 def subtracao_imagens(imagem1, imagem2):
     img1 = carregar_imagem(imagem1)
     img2 = carregar_imagem(imagem2)
 
-    resultado = np.zeros_like(img1)
+    resultado = np.zeros_like(img1, dtype=np.int32)
 
     for i in range(img1.shape[0]):
         for j in range(img1.shape[1]):
@@ -34,12 +35,12 @@ def multiplicacao_imagens(imagem1, imagem2):
     img1 = carregar_imagem(imagem1)
     img2 = carregar_imagem(imagem2)
 
-    resultado = np.zeros_like(img1)
+    resultado = np.zeros_like(img1, dtype=np.int32)
 
     for i in range(img1.shape[0]):
         for j in range(img1.shape[1]):
             resultado[i, j] = max(0, min(255, img1[i, j] * img2[i, j]))
-    
+                
     pathing_image = salvar_imagem_pgm(resultado, 'resultado_multiplicacao.pgm')
     return pathing_image
 
@@ -47,7 +48,7 @@ def divisao_imagens(imagem1, imagem2):
     img1 = carregar_imagem(imagem1)
     img2 = carregar_imagem(imagem2)
 
-    resultado = np.zeros_like(img1)
+    resultado = np.zeros_like(img1, dtype=np.int32)
 
     for i in range(img1.shape[0]):
         for j in range(img1.shape[1]):
@@ -63,7 +64,7 @@ def or_imagens(imagem1, imagem2):
     img1 = carregar_imagem(imagem1)
     img2 = carregar_imagem(imagem2)
 
-    resultado = np.zeros_like(img1)
+    resultado = np.zeros_like(img1, dtype=np.int32)
 
     for i in range(img1.shape[0]):
         for j in range(img1.shape[1]):
@@ -76,7 +77,7 @@ def and_imagens(imagem1, imagem2):
     img1 = carregar_imagem(imagem1)
     img2 = carregar_imagem(imagem2)
 
-    resultado = np.zeros_like(img1)
+    resultado = np.zeros_like(img1, dtype=np.int32)
 
     for i in range(img1.shape[0]):
         for j in range(img1.shape[1]):
@@ -89,7 +90,7 @@ def xor_imagens(imagem1, imagem2):
     img1 = carregar_imagem(imagem1)
     img2 = carregar_imagem(imagem2)
 
-    resultado = np.zeros_like(img1)
+    resultado = np.zeros_like(img1, dtype=np.int32)
 
     for i in range(img1.shape[0]):
         for j in range(img1.shape[1]):
