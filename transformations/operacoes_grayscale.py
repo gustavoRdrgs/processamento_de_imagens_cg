@@ -3,7 +3,6 @@ import numpy as np
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 
-# Função de normalização para o intervalo [0, 255]
 def normalizar_para_intervalo(imagem):
     minimo = np.min(imagem)
     maximo = np.max(imagem)
@@ -13,7 +12,7 @@ def normalizar_para_intervalo(imagem):
 
 def negativo_imagem(imagem):
     imagem_transformada = 255 - imagem
-    return normalizar_para_intervalo(imagem_transformada)
+    return imagem_transformada 
 
 def transformacao_gamma(imagem, gamma, c=1.0):
     if not (0 <= gamma <= 1):
@@ -22,25 +21,28 @@ def transformacao_gamma(imagem, gamma, c=1.0):
         raise ValueError("O valor de c deve ser maior que 0.")
     
     imagem_transformada = c * (imagem ** gamma)
-    return normalizar_para_intervalo(imagem_transformada)
+
+    return normalizar_para_intervalo(imagem_transformada) if np.max(imagem_transformada) > 255 else imagem_transformada
 
 def transformacao_logaritmica(imagem, a=1.0):
     imagem_float = imagem.astype(np.float32) 
     imagem_transformada = a * np.log1p(imagem_float)
-    return normalizar_para_intervalo(imagem_transformada)
+
+    return normalizar_para_intervalo(imagem_transformada) if np.max(imagem_transformada) > 255 else imagem_transformada
 
 def transferencia_intensidade(imagem, r, w, sigma):
     imagem_transformada = 255 / (1 + np.exp(-(imagem - w) / sigma))
-    return normalizar_para_intervalo(imagem_transformada)
+
+    return normalizar_para_intervalo(imagem_transformada) if np.max(imagem_transformada) > 255 else imagem_transformada
 
 def transferencia_faixa_dinamica(imagem, w):
-    # Realizando a transformação antes da normalização
     imagem_transformada = ((imagem - np.min(imagem)) * (255 / (np.max(imagem) - np.min(imagem))) * w)
-    return normalizar_para_intervalo(imagem_transformada)
+
+    return normalizar_para_intervalo(imagem_transformada) if np.max(imagem_transformada) > 255 else imagem_transformada
 
 def transferencia_linear(imagem, a, b):
     imagem_transformada = a * imagem + b
-    return normalizar_para_intervalo(imagem_transformada)
+    return normalizar_para_intervalo(imagem_transformada) if np.max(imagem_transformada) > 255 else imagem_transformada
 
 def aplicar_transformacao(tipo, imagem):
     try:
