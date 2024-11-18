@@ -25,7 +25,7 @@ def aplicar_alto_reforço(imagem, k=1.5, matriz_customizada=None):
     imagem_reforcada = np.clip(imagem_reforcada, 0, 255).astype(np.uint8)
     return imagem_reforcada
 
-def on_aplicar_alto_reforco(caminho_imagem, frame, k=1.5, matriz_customizada=None):
+def on_aplicar_alto_reforco(caminho_imagem, frame, k, matriz_customizada=None):
     imagem = Image.open(caminho_imagem).convert("L")
     resultado = aplicar_alto_reforço(imagem, k, matriz_customizada)
 
