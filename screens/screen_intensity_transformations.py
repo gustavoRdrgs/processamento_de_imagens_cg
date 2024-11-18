@@ -15,7 +15,7 @@ def abrir_tela_transformacoes_intensidade(janela, is_morfologico=False):
         imagem_selecionada.set("fingerprint.pbm")
         opcoes_imagens = ["fingerprint.pbm", "map.pbm", "holes.pbm"]
     else:
-        imagem_selecionada.set("Lena.pgm")
+        imagem_selecionada.set("")
         opcoes_imagens = ["Lenag.pgm", "Airplane.pgm", "Lenasalp.pgm", "Lena.pgm"]
 
     imagem = None
@@ -79,7 +79,7 @@ def abrir_tela_transformacoes_intensidade(janela, is_morfologico=False):
         ("Negativo", lambda: aplicar_transformacao_especifica("Negativo")),
         ("Transformação Gamma", lambda: aplicar_transformacao_especifica("Gamma")),
         ("Transformação Logarítmica", lambda: aplicar_transformacao_especifica("Logarítmica")),
-        ("Transferência de Intensidade", lambda: aplicar_transformacao_especifica("Transferência Intensidade")),
+        ("Transferência de Intensidade Geral", lambda: aplicar_transformacao_especifica("Transferência Intensidade Geral")),
         ("Faixa Dinâmica", lambda: aplicar_transformacao_especifica("Faixa Dinâmica")),
         ("Transferência Linear", lambda: aplicar_transformacao_especifica("Transferência Linear")),
     ]
