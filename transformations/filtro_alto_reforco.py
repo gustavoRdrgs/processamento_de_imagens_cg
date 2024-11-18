@@ -2,11 +2,15 @@ import numpy as np
 from PIL import Image, ImageTk
 from tkinter import Label
 
-def suavizar_imagem(imagem, tamanho_kernel=3):
-    kernel = np.ones((tamanho_kernel, tamanho_kernel), np.float32) / (tamanho_kernel ** 2)
+def aplicar_alto_reforço(imagem, k=1.5, matriz_customizada=None):
     imagem_array = np.array(imagem, dtype=np.float32)
-    altura, largura = imagem_array.shape
 
+    if matriz_customizada is not None:
+        kernel = matriz_customizada / np.sum(matriz_customizada)
+    else:
+        kernel = np.ones((3, 3), dtype=np.float32) / 9
+
+    altura, largura = imagem_array.shape
     imagem_suavizada = np.zeros_like(imagem_array, dtype=np.float32)
 
     for i in range(1, altura - 1):
@@ -15,24 +19,15 @@ def suavizar_imagem(imagem, tamanho_kernel=3):
             imagem_suavizada[i, j] = np.sum(kernel * recorte)
 
     imagem_suavizada = np.clip(imagem_suavizada, 0, 255).astype(np.uint8)
-    return imagem_suavizada
-
-def aplicar_alto_reforço(imagem, k=1.5):
-    imagem_array = np.array(imagem, dtype=np.float32)
-
-    imagem_suavizada = suavizar_imagem(imagem)
-
     resíduo = imagem_array - imagem_suavizada
-
     imagem_reforcada = imagem_array + k * resíduo
 
     imagem_reforcada = np.clip(imagem_reforcada, 0, 255).astype(np.uint8)
-
     return imagem_reforcada
 
-def on_aplicar_alto_reforco(caminho_imagem, frame, k=1.5):
+def on_aplicar_alto_reforco(caminho_imagem, frame, k=1.5, matriz_customizada=None):
     imagem = Image.open(caminho_imagem).convert("L")
-    resultado = aplicar_alto_reforço(imagem, k)
+    resultado = aplicar_alto_reforço(imagem, k, matriz_customizada)
 
     imagem_transformada = Image.fromarray(resultado)
 

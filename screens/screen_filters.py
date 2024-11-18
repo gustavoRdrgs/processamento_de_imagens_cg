@@ -3,11 +3,11 @@ import numpy as np
 from transformations.filtro_media import on_aplicar_filtro_media
 from transformations.filtro_mediana import on_aplicar_filtro_mediana
 from transformations.filtro_passa_alta import on_aplicar_filtro_passa_alta
-from transformations.filtro_roberts import on_aplicar_filtro_roberts
-from transformations.filtro_roberts_cruzado import on_aplicar_filtro_roberts_cruzado
-from transformations.filtro_prewitt import on_aplicar_filtro_prewitt
+from transformations.filtro_roberts import on_aplicar_filtro_roberts, on_aplicar_filtro_roberts_x, on_aplicar_filtro_roberts_y
+from transformations.filtro_roberts_cruzado import on_aplicar_filtro_roberts_cruzado, on_aplicar_filtro_roberts_cruzado_x, on_aplicar_filtro_roberts_cruzado_y 
+from transformations.filtro_prewitt import on_aplicar_filtro_prewitt, on_aplicar_filtro_prewitt_x, on_aplicar_filtro_prewitt_y
 from transformations.filtro_alto_reforco import on_aplicar_alto_reforco
-from transformations.filtro_sobel import on_aplicar_filtro_sobel
+from transformations.filtro_sobel import on_aplicar_filtro_sobel, on_aplicar_filtro_sobel_x, on_aplicar_filtro_sobel_y
 from transformations.operacoes_morfologicas import on_aplicar_morfologia
 from utils.formatar_matriz import formatar_matriz
 
@@ -57,10 +57,18 @@ def abrir_tela_filtro(janela, is_morfologico=False):
             "Filtro da Mediana",
             "Filtro Passa Alta",
             "Filtro Roberts",
+            "Filtro Roberts em X",
+            "Filtro Roberts em Y",
             "Filtro Roberts Cruzado",
+            "Filtro Roberts Cruzado em X",
+            "Filtro Roberts Cruzado em Y",
             "Filtro Prewitt",
-            "Filtro de Alto Reforço",
-            "Filtro Sobel"
+            "Filtro Prewitt em X",
+            "Filtro Prewitt em Y",
+            "Filtro Sobel",
+            "Filtro Sobel em X",
+            "Filtro Sobel em Y",
+            "Filtro de Alto Reforço"
         ]
         menu_filtros = tk.OptionMenu(janela_filtro, filtro_var, *opcoes_filtros)
         menu_filtros.pack(pady=5)
@@ -69,6 +77,17 @@ def abrir_tela_filtro(janela, is_morfologico=False):
     entry_k = tk.Entry(janela_filtro)
     label_k.pack_forget()
     entry_k.pack_forget()
+    matriz_entries = []
+    frame_matriz = tk.Frame(janela_filtro)
+
+    for i in range(3):
+        linha = []
+        for j in range(3):
+            entry = tk.Entry(frame_matriz, width=5)
+            entry.grid(row=i, column=j, padx=5, pady=5)
+            linha.append(entry)
+        matriz_entries.append(linha)
+
 
     def aplicar_filtro():
         caminho_imagem = f"{caminho_imagens}/{imagem_selecionada.get()}"
@@ -88,23 +107,60 @@ def abrir_tela_filtro(janela, is_morfologico=False):
                 matriz_aplicada = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
                 on_aplicar_filtro_passa_alta(caminho_imagem, frame_imagens)
             elif filtro == "Filtro Roberts":
-                matriz_aplicada = "\n[1 0]  [1 -1]\n[-1 0]  [0 0]"
+                matriz_aplicada = "\n[0 0 0]  [0 0 0]\n[0 1 0]  [0 1 -1]\n[0 -1 0]  [0 0 0]"
                 on_aplicar_filtro_roberts(caminho_imagem, frame_imagens)
+            elif filtro == "Filtro Roberts em X":
+                matriz_aplicada = "\n[0 0 0]\n[0 1 0]\n[0 -1 0]"
+                on_aplicar_filtro_roberts_x(caminho_imagem, frame_imagens)
+            elif filtro == "Filtro Roberts em Y":
+                matriz_aplicada = "\n[0 0 0]\n[0 1 -1]\n[0 0 0]"
+                on_aplicar_filtro_roberts_y(caminho_imagem, frame_imagens)
             elif filtro == "Filtro Roberts Cruzado":
-                matriz_aplicada = "\n[1 0]  [0 -1]\n[0 1]  [-1 0]"
+                matriz_aplicada = "\n[0 0 0]  [0 0 0]\n[0 1 0]  [0 0 -1]\n[0 0 1]  [0 -1 0]"
                 on_aplicar_filtro_roberts_cruzado(caminho_imagem, frame_imagens)
+            elif filtro == "Filtro Roberts Cruzado em X":
+                matriz_aplicada = "\n[0 0 0]\n[0 1 0]\n[0 0 -1]"
+                on_aplicar_filtro_roberts_cruzado_x(caminho_imagem, frame_imagens)
+            elif filtro == "Filtro Roberts Cruzado em Y":
+                matriz_aplicada = "\n[0 0 0]\n[0 0 1]\n[0 -1 0]"
+                on_aplicar_filtro_roberts_cruzado_y(caminho_imagem, frame_imagens)
             elif filtro == "Filtro Prewitt":
                 matriz_aplicada = "\n[-1 0 1]   [-1 -1 -1]\n[-1 0 1]   [0 0 0]\n[-1 0 1]   [1 1 1]"
                 on_aplicar_filtro_prewitt(caminho_imagem, frame_imagens)
+            elif filtro == "Filtro Prewitt em X":
+                matriz_aplicada = "\n[-1 0 1]\n[-1 0 1]\n[-1 0 1]"
+                on_aplicar_filtro_prewitt_x(caminho_imagem, frame_imagens)
+            elif filtro == "Filtro Prewitt em Y":
+                matriz_aplicada = "\n[-1 -1 -1]\n[0 0 0]\n[1 1 1]"
+                on_aplicar_filtro_prewitt_y(caminho_imagem, frame_imagens)
             elif filtro == "Filtro Sobel":
                 matriz_aplicada = "\n[-1 0 1]   [-1 -2 -1]\n[-2 0 1]   [0 0 0]\n[-1 0 1]   [1 2 1]"
                 on_aplicar_filtro_sobel(caminho_imagem, frame_imagens)
+            elif filtro == "Filtro Sobel em X":
+                matriz_aplicada = "\n[-1 0 1]\n[-2 0 1]\n[-1 0 1]"
+                on_aplicar_filtro_sobel_x(caminho_imagem, frame_imagens)
+            elif filtro == "Filtro Sobel em Y":
+                matriz_aplicada = "\n[-1 -2 -1]\n[0 0 0]\n[1 2 1]"
+                on_aplicar_filtro_sobel_y(caminho_imagem, frame_imagens)
             elif filtro == "Filtro de Alto Reforço":
                 try:
                     k = float(entry_k.get())
                 except ValueError:
                     k = 1.5
-                on_aplicar_alto_reforco(caminho_imagem, frame_imagens, k)
+
+                matriz = []
+                for linha in matriz_entries:
+                    valores_linha = []
+                    for entry in linha:
+                        try:
+                            valor = float(entry.get())
+                        except ValueError:
+                            valor = 0.0
+                        valores_linha.append(valor)
+                    matriz.append(valores_linha)
+
+                matriz = np.array(matriz)
+                on_aplicar_alto_reforco(caminho_imagem, frame_imagens, k, matriz)
 
         if isinstance(matriz_aplicada, np.ndarray):
             matriz_formatada = formatar_matriz(matriz_aplicada)
@@ -114,15 +170,17 @@ def abrir_tela_filtro(janela, is_morfologico=False):
         if not is_morfologico:
             label_matriz.config(text=f"Máscara Aplicada:\n{matriz_formatada}")
 
-    def mostrar_caixa_k(*args):
+    def mostrar_opcoes_alto_reforco(*args):
         if filtro_var.get() == "Filtro de Alto Reforço":
             label_k.pack(pady=5)
             entry_k.pack(pady=5)
+            frame_matriz.pack(pady=10)
         else:
             label_k.pack_forget()
             entry_k.pack_forget()
+            frame_matriz.pack_forget()
 
-    filtro_var.trace("w", mostrar_caixa_k)
+    filtro_var.trace("w", mostrar_opcoes_alto_reforco)
 
     botao_aplicar = tk.Button(janela_filtro, text="Aplicar Filtro", command=aplicar_filtro)
     botao_aplicar.pack(pady=10)
