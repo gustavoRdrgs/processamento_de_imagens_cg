@@ -3,8 +3,17 @@ import numpy as np
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 
+# Função de normalização para o intervalo [0, 255]
+def normalizar_para_intervalo(imagem):
+    minimo = np.min(imagem)
+    maximo = np.max(imagem)
+    if maximo - minimo == 0:
+        return np.zeros_like(imagem, dtype=np.uint8)
+    return ((imagem - minimo) / (maximo - minimo) * 255).astype(np.uint8)
+
 def negativo_imagem(imagem):
-    return 255 - imagem
+    imagem_transformada = 255 - imagem
+    return normalizar_para_intervalo(imagem_transformada)
 
 def transformacao_gamma(imagem, gamma, c=1.0):
     if not (0 <= gamma <= 1):
@@ -13,32 +22,27 @@ def transformacao_gamma(imagem, gamma, c=1.0):
         raise ValueError("O valor de c deve ser maior que 0.")
     
     imagem_transformada = c * (imagem ** gamma)
-    imagem_resultado = np.clip(imagem_transformada, 0, 255)
-    return imagem_resultado.astype(np.uint8)
-
+    return normalizar_para_intervalo(imagem_transformada)
 
 def transformacao_logaritmica(imagem, a=1.0):
-    
     imagem_float = imagem.astype(np.float32) 
-    return np.clip(a * np.log1p(imagem_float), 0, 255).astype(np.uint8)
+    imagem_transformada = a * np.log1p(imagem_float)
+    return normalizar_para_intervalo(imagem_transformada)
 
 def transferencia_intensidade(imagem, r, w, sigma):
-    
-    return np.uint8(255 / (1 + np.exp(-(imagem - w) / sigma)))
+    imagem_transformada = 255 / (1 + np.exp(-(imagem - w) / sigma))
+    return normalizar_para_intervalo(imagem_transformada)
 
 def transferencia_faixa_dinamica(imagem, w):
-  
-    min_val = np.min(imagem)
-    max_val = np.max(imagem)
-    imagem_dinamica = ((imagem - min_val) * (255 / (max_val - min_val))) * w #w_target
-    return np.uint8(imagem_dinamica)
+    # Realizando a transformação antes da normalização
+    imagem_transformada = ((imagem - np.min(imagem)) * (255 / (np.max(imagem) - np.min(imagem))) * w)
+    return normalizar_para_intervalo(imagem_transformada)
 
 def transferencia_linear(imagem, a, b):
-    
-    return np.clip(a * imagem + b, 0, 255).astype(np.uint8)
+    imagem_transformada = a * imagem + b
+    return normalizar_para_intervalo(imagem_transformada)
 
 def aplicar_transformacao(tipo, imagem):
-   
     try:
         if tipo == "Negativo":
             imagem_resultado = negativo_imagem(imagem)
