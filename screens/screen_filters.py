@@ -136,10 +136,10 @@ def abrir_tela_filtro(janela, is_morfologico=False):
                 matriz_aplicada = "\n[-1 -1 -1]\n[0 0 0]\n[1 1 1]"
                 on_aplicar_filtro_prewitt_y(caminho_imagem, frame_imagens)
             elif filtro == "Sobel":
-                matriz_aplicada = "\n[-1 0 1]   [-1 -2 -1]\n[-2 0 1]   [0 0 0]\n[-1 0 1]   [1 2 1]"
+                matriz_aplicada = "\n[-1 0 1]   [-1 -2 -1]\n[-2 0 2]   [0 0 0]\n[-1 0 1]   [1 2 1]"
                 on_aplicar_filtro_sobel(caminho_imagem, frame_imagens)
             elif filtro == "Sobel em X":
-                matriz_aplicada = "\n[-1 0 1]\n[-2 0 1]\n[-1 0 1]"
+                matriz_aplicada = "\n[-1 0 1]\n[-2 0 2]\n[-1 0 1]"
                 on_aplicar_filtro_sobel_x(caminho_imagem, frame_imagens)
             elif filtro == "Sobel em Y":
                 matriz_aplicada = "\n[-1 -2 -1]\n[0 0 0]\n[1 2 1]"
