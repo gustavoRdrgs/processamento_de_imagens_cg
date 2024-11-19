@@ -23,7 +23,7 @@ def abrir_tela_filtro(janela, is_morfologico=False):
 
     if is_morfologico:
         imagem_selecionada.set("fingerprint.pbm")
-        opcoes_imagens = ["fingerprint.pbm", "map.pbm", "holes.pbm", "Lenag.pgm", "Airplane.pgm", "Lenasalp.pgm", "Lena.pgm"]
+        opcoes_imagens = ["fingerprint.pbm", "map.pbm", "holes.pbm", "Lenag.pgm", "Airplane.pgm", "Lenasalp.pgm", "Lena.pgm", "Lena.pbm", "Airplane.pbm"]
     else:
         imagem_selecionada.set("Lena.pgm")
         opcoes_imagens = ["Lenag.pgm", "Airplane.pgm", "Lenasalp.pgm", "Lena.pgm"]
@@ -93,7 +93,7 @@ def abrir_tela_filtro(janela, is_morfologico=False):
 
     def aplicar_filtro():
         caminho_imagem = f"{caminho_imagens}/{imagem_selecionada.get()}"
-        matriz_aplicada = ""
+        matriz_aplicada = None
         matriz_aplicada_dupla = None
 
         for widget in frame_matriz_aplicada.winfo_children():
@@ -189,8 +189,6 @@ def abrir_tela_filtro(janela, is_morfologico=False):
             exibir_matriz_formatada(frame_matriz_aplicada, matriz_aplicada)
         elif matriz_aplicada_dupla:
             exibir_matrizes_duplas(frame_matriz_aplicada, matriz_aplicada_dupla)
-        else:
-            label_matriz.config(text=f"{matriz_aplicada}")
 
     def exibir_matriz_formatada(frame, matriz):
         for widget in frame.winfo_children():
