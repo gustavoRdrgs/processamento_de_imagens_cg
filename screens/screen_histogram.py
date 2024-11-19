@@ -8,6 +8,7 @@ def abrir_tela_histograma(janela):
     janela_histograma = tk.Toplevel(janela)
     janela_histograma.title("Equalização de Histograma")
     janela_histograma.geometry("1020x720")
+    janela_histograma.configure(bg="#D3D3D3")
     
     caminho_imagens = 'images'
 

@@ -3,9 +3,8 @@ import numpy as np
 from tkinter import Label, messagebox
 from PIL import Image, ImageTk
 
-
-def filtro_media(imagem):
-    kernel = np.ones((3, 3), dtype=np.float32) / 9
+def filtro_personalizavel(imagem, matriz_customizada):
+    kernel = matriz_customizada
     altura, largura = imagem.shape
     kaltura, klargura = kernel.shape
 
@@ -13,26 +12,25 @@ def filtro_media(imagem):
     offset_y = kaltura // 2
     offset_x = klargura // 2
 
-    for y in range(altura):
-        for x in range(largura):
+    for y in range(offset_y, altura - offset_y):
+        for x in range(offset_x, largura - offset_x):
             soma = 0.0
             for ky in range(kaltura):
                 for kx in range(klargura):
                     ny = y + ky - offset_y
                     nx = x + kx - offset_x
-                    if 0 <= ny < altura and 0 <= nx < largura:
-                        soma += imagem[ny, nx] * kernel[ky, kx]
-            imagem_filtrada[y, x] = soma
+                    soma += imagem[ny, nx] * kernel[ky, kx]
+            imagem_filtrada[y, x] = min(max(soma, 0), 255)
 
-    return imagem, imagem_filtrada, kernel
+    return imagem, imagem_filtrada.astype(np.uint8)
 
-def on_aplicar_filtro_media(caminho_imagem, frame_imagens):
+def on_aplicar_filtro_personalizado(caminho_imagem, frame_imagens, matriz_customizada):
     try:
         imagem = cv2.imread(caminho_imagem, cv2.IMREAD_GRAYSCALE)
         if imagem is None:
             raise ValueError("Erro ao carregar a imagem.")
         
-        imagem_original, imagem_filtrada, kernel = filtro_media(imagem)
+        imagem_original, imagem_filtrada = filtro_personalizavel(imagem, matriz_customizada)
 
         imagem_original_tk = ImageTk.PhotoImage(Image.fromarray(imagem_original))
         imagem_filtrada_tk = ImageTk.PhotoImage(Image.fromarray(imagem_filtrada))
@@ -44,11 +42,9 @@ def on_aplicar_filtro_media(caminho_imagem, frame_imagens):
         label_original.image = imagem_original_tk
         label_original.pack(side="left", padx=10)
 
-        label_filtrada = Label(frame_imagens, image=imagem_filtrada_tk, text="Filtro de Média (3x3)", compound="top", bg="#D3D3D3")
+        label_filtrada = Label(frame_imagens, image=imagem_filtrada_tk, text="Filtro Personalizável", compound="top", bg="#D3D3D3")
         label_filtrada.image = imagem_filtrada_tk
         label_filtrada.pack(side="right", padx=10)
-
-        return kernel
 
     except Exception as e:
         messagebox.showerror("Erro", str(e))
