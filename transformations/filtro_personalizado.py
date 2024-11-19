@@ -38,11 +38,11 @@ def on_aplicar_filtro_personalizado(caminho_imagem, frame_imagens, matriz_custom
         for widget in frame_imagens.winfo_children():
             widget.destroy()
 
-        label_original = Label(frame_imagens, image=imagem_original_tk, text="Imagem Original", compound="top")
+        label_original = Label(frame_imagens, image=imagem_original_tk, text="Imagem Original", compound="top", bg="#D3D3D3")
         label_original.image = imagem_original_tk
         label_original.pack(side="left", padx=10)
 
-        label_filtrada = Label(frame_imagens, image=imagem_filtrada_tk, text="Filtro Personalizável", compound="top")
+        label_filtrada = Label(frame_imagens, image=imagem_filtrada_tk, text="Filtro Personalizável", compound="top", bg="#D3D3D3")
         label_filtrada.image = imagem_filtrada_tk
         label_filtrada.pack(side="right", padx=10)
 

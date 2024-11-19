@@ -34,11 +34,11 @@ def on_aplicar_filtro_prewitt(caminho_imagem, frame):
         for widget in frame.winfo_children():
             widget.destroy()
 
-        label_original = Label(frame, image=imagem_tk, text="Imagem Original", compound="top")
+        label_original = Label(frame, image=imagem_tk, text="Imagem Original", compound="top", bg="#D3D3D3")
         label_original.image = imagem_tk
         label_original.pack(side="left", padx=10)
 
-        label_filtrada = Label(frame, image=imagem_transformada_tk, text="Filtro Prewitt", compound="top")
+        label_filtrada = Label(frame, image=imagem_transformada_tk, text="Filtro Prewitt", compound="top", bg="#D3D3D3")
         label_filtrada.image = imagem_transformada_tk
         label_filtrada.pack(side="right", padx=10)
 
@@ -76,11 +76,11 @@ def on_aplicar_filtro_prewitt_x(caminho_imagem, frame):
         for widget in frame.winfo_children():
             widget.destroy()
 
-        label_original = Label(frame, image=imagem_tk, text="Imagem Original", compound="top")
+        label_original = Label(frame, image=imagem_tk, text="Imagem Original", compound="top", bg="#D3D3D3")
         label_original.image = imagem_tk
         label_original.pack(side="left", padx=10)
 
-        label_filtrada = Label(frame, image=imagem_transformada_tk, text="Filtro Prewitt X", compound="top")
+        label_filtrada = Label(frame, image=imagem_transformada_tk, text="Filtro Prewitt X", compound="top", bg="#D3D3D3")
         label_filtrada.image = imagem_transformada_tk
         label_filtrada.pack(side="right", padx=10)
 
@@ -110,10 +110,10 @@ def on_aplicar_filtro_prewitt_y(caminho_imagem, frame):
         imagem_transformada_tk = ImageTk.PhotoImage(imagem_transformada)
         for widget in frame.winfo_children():
             widget.destroy()
-        label_original = Label(frame, image=imagem_tk, text="Imagem Original", compound="top")
+        label_original = Label(frame, image=imagem_tk, text="Imagem Original", compound="top", bg="#D3D3D3")
         label_original.image = imagem_tk
         label_original.pack(side="left", padx=10)
-        label_filtrada = Label(frame, image=imagem_transformada_tk, text="Filtro Prewitt Y", compound="top")
+        label_filtrada = Label(frame, image=imagem_transformada_tk, text="Filtro Prewitt Y", compound="top", bg="#D3D3D3")
         label_filtrada.image = imagem_transformada_tk
         label_filtrada.pack(side="right", padx=10)
     except Exception as e:

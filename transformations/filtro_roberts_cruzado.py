@@ -72,11 +72,11 @@ def on_aplicar_filtro_roberts_cruzado(caminho_imagem, frame):
         for widget in frame.winfo_children():
             widget.destroy()
 
-        label_original = Label(frame, image=imagem_tk, text="Imagem Original", compound="top")
+        label_original = Label(frame, image=imagem_tk, text="Imagem Original", compound="top", bg="#D3D3D3")
         label_original.image = imagem_tk
         label_original.pack(side="left", padx=10)
 
-        label_filtrada = Label(frame, image=imagem_transformada_tk, text="Filtro Roberts Cruzado", compound="top")
+        label_filtrada = Label(frame, image=imagem_transformada_tk, text="Filtro Roberts Cruzado", compound="top", bg="#D3D3D3")
         label_filtrada.image = imagem_transformada_tk
         label_filtrada.pack(side="right", padx=10)
 
@@ -96,11 +96,11 @@ def on_aplicar_filtro_roberts_cruzado_x(caminho_imagem, frame):
         for widget in frame.winfo_children():
             widget.destroy()
 
-        label_original = Label(frame, image=imagem_tk, text="Imagem Original", compound="top")
+        label_original = Label(frame, image=imagem_tk, text="Imagem Original", compound="top", bg="#D3D3D3")
         label_original.image = imagem_tk
         label_original.pack(side="left", padx=10)
 
-        label_filtrada = Label(frame, image=imagem_transformada_tk, text="Filtro Roberts X", compound="top")
+        label_filtrada = Label(frame, image=imagem_transformada_tk, text="Filtro Roberts X", compound="top", bg="#D3D3D3")
         label_filtrada.image = imagem_transformada_tk
         label_filtrada.pack(side="right", padx=10)
 
@@ -120,11 +120,11 @@ def on_aplicar_filtro_roberts_cruzado_y(caminho_imagem, frame):
         for widget in frame.winfo_children():
             widget.destroy()
 
-        label_original = Label(frame, image=imagem_tk, text="Imagem Original", compound="top")
+        label_original = Label(frame, image=imagem_tk, text="Imagem Original", compound="top", bg="#D3D3D3")
         label_original.image = imagem_tk
         label_original.pack(side="left", padx=10)
 
-        label_filtrada = Label(frame, image=imagem_transformada_tk, text="Filtro Roberts X", compound="top")
+        label_filtrada = Label(frame, image=imagem_transformada_tk, text="Filtro Roberts X", compound="top", bg="#D3D3D3")
         label_filtrada.image = imagem_transformada_tk
         label_filtrada.pack(side="right", padx=10)
 

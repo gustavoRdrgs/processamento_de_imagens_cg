@@ -35,12 +35,12 @@ def on_aplicar_alto_reforco(caminho_imagem, frame, k, matriz_customizada=None):
         widget.destroy()
 
     imagem_original_tk = ImageTk.PhotoImage(imagem)
-    label_original = Label(frame, image=imagem_original_tk, text="Imagem Original", compound="top")
+    label_original = Label(frame, image=imagem_original_tk, text="Imagem Original", compound="top", bg="#D3D3D3")
     label_original.image = imagem_original_tk
     label_original.pack(side="left", padx=10)
 
     imagem_transformada_tk = ImageTk.PhotoImage(imagem_transformada)
-    label_filtrada = Label(frame, image=imagem_transformada_tk, text=f"Filtro de Alto Reforço (k={k})", compound="top")
+    label_filtrada = Label(frame, image=imagem_transformada_tk, text=f"Filtro de Alto Reforço (k={k})", compound="top", bg="#D3D3D3")
     label_filtrada.image = imagem_transformada_tk
     label_filtrada.pack(side="right", padx=10)
 

@@ -10,6 +10,8 @@ def abrir_tela_operacoes_imagem(janela):
     janela_operacoes = tk.Toplevel(janela)
     janela_operacoes.title("Operações com Imagem")
     janela_operacoes.geometry("800x600")
+    janela_operacoes.geometry("1020x720")
+    janela_operacoes.configure(bg="#D3D3D3")
     
     caminho_imagens = 'images' 
 

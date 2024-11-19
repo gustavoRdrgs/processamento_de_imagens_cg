@@ -15,7 +15,8 @@ from utils.formatar_matriz import formatar_matriz
 def abrir_tela_filtro(janela, is_morfologico=False):
     janela_filtro = tk.Toplevel(janela)
     janela_filtro.title("Aplicar Filtro")
-    janela_filtro.geometry("800x600")
+    janela_filtro.geometry("1020x720")
+    janela_filtro.configure(bg="#D3D3D3")
 
     caminho_imagens = 'images'
     imagem_selecionada = tk.StringVar(janela_filtro)
@@ -44,13 +45,10 @@ def abrir_tela_filtro(janela, is_morfologico=False):
 
     frame_imagens = tk.Frame(janela_filtro)
     frame_imagens.pack(pady=10, expand=True)
+    frame_imagens.configure(bg="#D3D3D3")
 
     filtro_var = tk.StringVar(janela_filtro)
-    filtro_var.set("Filtro da Média")
-
-    if not is_morfologico:
-        label_matriz = tk.Label(janela_filtro, text="Matriz Aplicada: ", justify="left")
-        label_matriz.pack(pady=10)
+    filtro_var.set("Média")
 
     if not is_morfologico:
         opcoes_filtros = [
@@ -81,6 +79,8 @@ def abrir_tela_filtro(janela, is_morfologico=False):
     entry_k.pack_forget()
     matriz_entries = []
     frame_matriz = tk.Frame(janela_filtro)
+    frame_matriz_aplicada = tk.Frame(janela_filtro)
+    frame_matriz_aplicada.pack(pady=10)
 
     for i in range(3):
         linha = []
@@ -94,6 +94,10 @@ def abrir_tela_filtro(janela, is_morfologico=False):
     def aplicar_filtro():
         caminho_imagem = f"{caminho_imagens}/{imagem_selecionada.get()}"
         matriz_aplicada = ""
+        matriz_aplicada_dupla = None
+
+        for widget in frame_matriz_aplicada.winfo_children():
+            widget.destroy()
 
         if is_morfologico:
             operacao = operacao_morfologica.get()
@@ -109,40 +113,44 @@ def abrir_tela_filtro(janela, is_morfologico=False):
                 matriz_aplicada = np.array([[-1, -1, -1], [-1, 8, -1], [-1, -1, -1]])
                 on_aplicar_filtro_passa_alta(caminho_imagem, frame_imagens)
             elif filtro == "Roberts":
-                matriz_aplicada = "\n[0 0 0]  [0 0 0]\n[0 1 0]  [0 1 -1]\n[0 -1 0]  [0 0 0]"
+                matriz_aplicada_dupla = (np.array([[0, 0, 0], [0, 1, 0], [0, -1, 0]]),
+                                         np.array([[0, 0, 0], [0, 1, -1], [0, 0, 0]]))
                 on_aplicar_filtro_roberts(caminho_imagem, frame_imagens)
             elif filtro == "Roberts em X":
-                matriz_aplicada = "\n[0 0 0]\n[0 1 0]\n[0 -1 0]"
+                matriz_aplicada = np.array([[0, 0, 0], [0, 1, 0], [0, -1, 0]])
                 on_aplicar_filtro_roberts_x(caminho_imagem, frame_imagens)
             elif filtro == "Roberts em Y":
-                matriz_aplicada = "\n[0 0 0]\n[0 1 -1]\n[0 0 0]"
+                matriz_aplicada = np.array([[0, 0, 0], [0, 1, -1], [0, 0, 0]])
                 on_aplicar_filtro_roberts_y(caminho_imagem, frame_imagens)
             elif filtro == "Roberts Cruzado":
-                matriz_aplicada = "\n[0 0 0]  [0 0 0]\n[0 1 0]  [0 0 -1]\n[0 0 1]  [0 -1 0]"
+                matriz_aplicada_dupla = (np.array([[0, 0, 0], [0, 1, 0], [0, 0, -1]]),
+                                         np.array([[0, 0, 0], [0, 0, 1], [0, -1, 0]]))
                 on_aplicar_filtro_roberts_cruzado(caminho_imagem, frame_imagens)
             elif filtro == "Roberts Cruzado em X":
-                matriz_aplicada = "\n[0 0 0]\n[0 1 0]\n[0 0 -1]"
+                matriz_aplicada = np.array([[0, 0, 0], [0, 1, 0], [0, 0, -1]])
                 on_aplicar_filtro_roberts_cruzado_x(caminho_imagem, frame_imagens)
             elif filtro == "Roberts Cruzado em Y":
-                matriz_aplicada = "\n[0 0 0]\n[0 0 1]\n[0 -1 0]"
+                matriz_aplicada = np.array([[0, 0, 0], [0, 0, 1], [0, -1, 0]])
                 on_aplicar_filtro_roberts_cruzado_y(caminho_imagem, frame_imagens)
             elif filtro == "Prewitt":
-                matriz_aplicada = "\n[-1 0 1]   [-1 -1 -1]\n[-1 0 1]   [0 0 0]\n[-1 0 1]   [1 1 1]"
+                matriz_aplicada_dupla = (np.array([[-1, 0, 1], [-1, 0, 1], [-1, 0, 1]]),
+                                         np.array([[-1, -1, -1], [0, 0, 0], [1, 1, 1]]))
                 on_aplicar_filtro_prewitt(caminho_imagem, frame_imagens)
             elif filtro == "Prewitt em X":
-                matriz_aplicada = "\n[-1 0 1]\n[-1 0 1]\n[-1 0 1]"
+                matriz_aplicada = np.array([[-1, 0, 1], [-1, 0, 1], [-1, 0, 1]])
                 on_aplicar_filtro_prewitt_x(caminho_imagem, frame_imagens)
             elif filtro == "Prewitt em Y":
-                matriz_aplicada = "\n[-1 -1 -1]\n[0 0 0]\n[1 1 1]"
+                matriz_aplicada = np.array([[-1, -1, -1], [0, 0, 0], [1, 1, 1]])
                 on_aplicar_filtro_prewitt_y(caminho_imagem, frame_imagens)
             elif filtro == "Sobel":
-                matriz_aplicada = "\n[-1 0 1]   [-1 -2 -1]\n[-2 0 2]   [0 0 0]\n[-1 0 1]   [1 2 1]"
+                matriz_aplicada_dupla = (np.array([[-1, 0, -1], [-2, 0, 2], [-1, 0, 1]]),
+                                         np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]]))
                 on_aplicar_filtro_sobel(caminho_imagem, frame_imagens)
             elif filtro == "Sobel em X":
-                matriz_aplicada = "\n[-1 0 1]\n[-2 0 2]\n[-1 0 1]"
+                matriz_aplicada = np.array([[-1, 0, 1], [-2, 0, 2], [-1, 0, 1]])
                 on_aplicar_filtro_sobel_x(caminho_imagem, frame_imagens)
             elif filtro == "Sobel em Y":
-                matriz_aplicada = "\n[-1 -2 -1]\n[0 0 0]\n[1 2 1]"
+                matriz_aplicada = np.array([[-1, -2, -1], [0, 0, 0], [1, 2, 1]])
                 on_aplicar_filtro_sobel_y(caminho_imagem, frame_imagens)
             elif filtro == "Alto Reforço":
                 k = float(entry_k.get())
@@ -178,12 +186,41 @@ def abrir_tela_filtro(janela, is_morfologico=False):
                 on_aplicar_filtro_personalizado(caminho_imagem, frame_imagens, matriz)
 
         if isinstance(matriz_aplicada, np.ndarray):
-            matriz_formatada = formatar_matriz(matriz_aplicada)
+            exibir_matriz_formatada(frame_matriz_aplicada, matriz_aplicada)
+        elif matriz_aplicada_dupla:
+            exibir_matrizes_duplas(frame_matriz_aplicada, matriz_aplicada_dupla)
         else:
-            matriz_formatada = matriz_aplicada
+            label_matriz.config(text=f"{matriz_aplicada}")
 
-        if not is_morfologico:
-            label_matriz.config(text=f"Máscara Aplicada:\n{matriz_formatada}")
+    def exibir_matriz_formatada(frame, matriz):
+        for widget in frame.winfo_children():
+            widget.destroy()
+
+        for i, linha in enumerate(matriz):
+            for j, valor in enumerate(linha):
+                label = tk.Label(frame, text=f"{valor:.2f}", width=6, relief="solid", borderwidth=1)
+                label.grid(row=i, column=j, padx=2, pady=2)
+
+    def exibir_matrizes_duplas(frame, matrizes):
+        for widget in frame.winfo_children():
+            widget.destroy()
+
+        matriz1, matriz2 = matrizes
+
+        for i, linha in enumerate(matriz1):
+            for j, valor in enumerate(linha):
+                label = tk.Label(frame, text=f"{valor:.2f}", width=6, relief="solid", borderwidth=1)
+                label.grid(row=i, column=j, padx=2, pady=2)
+
+        num_colunas = len(matriz1[0])
+        spacer = tk.Label(frame, text="", width=2)
+        spacer.grid(row=0, column=num_colunas, rowspan=len(matriz1))
+
+        for i, linha in enumerate(matriz2):
+            for j, valor in enumerate(linha):
+                label = tk.Label(frame, text=f"{valor:.2f}", width=6, relief="solid", borderwidth=1)
+                label.grid(row=i, column=j + num_colunas + 1, padx=2, pady=2)
+
 
     def mostrar_opcoes_alto_reforco(*args):
         if filtro_var.get() == "Alto Reforço":
@@ -192,6 +229,8 @@ def abrir_tela_filtro(janela, is_morfologico=False):
             entry_k.pack(pady=5)
             frame_matriz.pack(pady=10)
         elif filtro_var.get() == "Personalizável":
+            for widget in frame_matriz_aplicada.winfo_children():
+                widget.destroy()
             frame_matriz.pack_forget()
             frame_matriz.pack(pady=10)
             label_k.pack_forget()

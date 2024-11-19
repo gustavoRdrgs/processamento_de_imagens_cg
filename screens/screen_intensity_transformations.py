@@ -6,7 +6,8 @@ from PIL import Image, ImageTk
 def abrir_tela_transformacoes_intensidade(janela, is_morfologico=False):
     janela_transformacoes = tk.Toplevel(janela)
     janela_transformacoes.title("Transformações de Intensidade")
-    janela_transformacoes.geometry("800x700")
+    janela_transformacoes.geometry("1020x720")
+    janela_transformacoes.configure(bg="#D3D3D3")
 
     caminho_imagens = 'images'
     imagem_selecionada = tk.StringVar(janela_transformacoes)

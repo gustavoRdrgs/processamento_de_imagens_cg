@@ -40,11 +40,11 @@ def on_aplicar_filtro_media(caminho_imagem, frame_imagens):
         for widget in frame_imagens.winfo_children():
             widget.destroy()
 
-        label_original = Label(frame_imagens, image=imagem_original_tk, text="Imagem Original", compound="top")
+        label_original = Label(frame_imagens, image=imagem_original_tk, text="Imagem Original", compound="top", bg="#D3D3D3")
         label_original.image = imagem_original_tk
         label_original.pack(side="left", padx=10)
 
-        label_filtrada = Label(frame_imagens, image=imagem_filtrada_tk, text="Filtro de Média (3x3)", compound="top")
+        label_filtrada = Label(frame_imagens, image=imagem_filtrada_tk, text="Filtro de Média (3x3)", compound="top", bg="#D3D3D3")
         label_filtrada.image = imagem_filtrada_tk
         label_filtrada.pack(side="right", padx=10)
 
